@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'piece.dart';
 
 class Rook extends Piece {
-  Rook(bool isWhite) : super(isWhite);
+  Rook(bool isWhite, int id) : super(isWhite, id);
 
   @override
   List<int> getPossibleMoves(int index, List<Piece?> board) {

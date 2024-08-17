@@ -7,11 +7,13 @@ class BoardTile extends StatelessWidget {
   final VoidCallback onTap;
   final bool isSelected;
   final bool isPossibleMove;
+  final int crossAxisCount; // crossAxisCount를 받아옴
 
   const BoardTile({
     required this.index,
     required this.piece,
     required this.onTap,
+    required this.crossAxisCount, // crossAxisCount를 초기화
     this.isSelected = false,
     this.isPossibleMove = false,
     super.key,
@@ -19,7 +21,7 @@ class BoardTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isEvenRow = (index ~/ 8) % 2 == 0;
+    final isEvenRow = (index ~/ crossAxisCount) % 2 == 0;
     final isEvenTile = (index % 2 == 0);
     final isWhiteTile = (isEvenRow && isEvenTile) || (!isEvenRow && !isEvenTile);
 
@@ -27,23 +29,22 @@ class BoardTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         color: isSelected
-            ? Colors.blueAccent
+            ? Colors.blueAccent.withOpacity(0.5)
             : isPossibleMove
-                ? Colors.greenAccent
-                : isWhiteTile
-                    ? Colors.white
-                    : Colors.black,
+            ? Colors.greenAccent.withOpacity(0.5)
+            : isWhiteTile
+            ? Colors.white
+            : Colors.black,
         child: Center(
           child: piece != null
               ? Icon(
-                  piece!.getIcon(),
-                  color: piece?.getColor(),
-                  size: 24
-                )
+            piece!.getIcon(),
+            color: piece!.getColor(),
+            size: 24,
+          )
               : null,
         ),
       ),
     );
   }
-
 }

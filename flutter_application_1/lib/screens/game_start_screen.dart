@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-
-import 'game_screen.dart';
+import 'standard_game_screen.dart';
+import 'double_game_screen.dart';
+import 'balbo_game_screen.dart';
+import '../models/game_mode.dart';
+import '../widgets/game_mode_dropdown.dart';
 
 class GameStartScreen extends StatefulWidget {
   @override
@@ -8,13 +11,13 @@ class GameStartScreen extends StatefulWidget {
 }
 
 class _GameStartScreenState extends State<GameStartScreen> {
-  String _selectedMode = '일반';
+  GameMode _selectedMode = GameMode.standard; // 기본값을 GameMode.standard로 설정
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('체스 게임 시작')
+        title: Text('체스 게임 시작'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -22,20 +25,13 @@ class _GameStartScreenState extends State<GameStartScreen> {
         children: [
           Row(
             children: [
-              DropdownButton<String>(
-                value: _selectedMode,
-                onChanged: ((String? newValue){
+              GameModeDropdown(
+                selectedMode: _selectedMode,
+                onChanged: (GameMode? newValue) {
                   setState(() {
                     _selectedMode = newValue!;
                   });
-                }),
-                items: <String>['일반', '랜덤 능력', '랜덤 말']
-                .map<DropdownMenuItem<String>>((String value){
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+                },
               ),
               ElevatedButton(
                 onPressed: () {
@@ -43,22 +39,33 @@ class _GameStartScreenState extends State<GameStartScreen> {
                 },
                 child: Text('빠른 시작'),
               ),
-            ]
-          )
-        ]
-      )
-    );
-  }
-
-  void _startGame(BuildContext context) {
-    // 선택된 모드에 따라 게임을 시작하는 로직
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GameScreen(mode: _selectedMode),
+            ],
+          ),
+        ],
       ),
     );
   }
 
-}
+  void _startGame(BuildContext context) {
+    Widget screen;
 
+    switch (_selectedMode) {
+      case GameMode.double:
+        screen = DoubleGameScreen();
+        break;
+      case GameMode.balbo:
+        screen = BalboGameScreen();
+        break;
+      default:
+        screen = StandardGameScreen();
+        break;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => screen,
+      ),
+    );
+  }
+}

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'piece.dart';
-import 'rook.dart';
-import 'bishop.dart';
+import 'double_rook.dart';
+import 'double_bishop.dart';
 
-class Queen extends Piece {
-  Queen(bool isWhite, int id) : super(isWhite, id);
+class DoubleQueen extends Piece {
+  DoubleQueen(bool isWhite, int id) : super(isWhite, id);
 
   @override
   List<int> getPossibleMoves(int index, List<Piece?> board) {
     List<int> moves = [];
-    // 퀸은 룩과 비숍의 움직임을 모두 가짐
-    Rook rookMoves = Rook(isWhite, 0);
-    Bishop bishopMoves = Bishop(isWhite, 0);
+    DoubleRook rookMoves = DoubleRook(isWhite, id);
+    DoubleBishop bishopMoves = DoubleBishop(isWhite, id);
+
     moves.addAll(rookMoves.getPossibleMoves(index, board));
     moves.addAll(bishopMoves.getPossibleMoves(index, board));
+
     return moves;
   }
 
@@ -24,12 +25,12 @@ class Queen extends Piece {
   }
 
   @override
-  IconData getIcon(){
+  IconData getIcon() {
     return FontAwesomeIcons.chessQueen;
   }
 
   @override
-  Color getColor(){
+  Color getColor() {
     return isWhite ? Colors.orange : Colors.purple;
   }
 }

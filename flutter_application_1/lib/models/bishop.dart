@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'piece.dart';
 
 class Bishop extends Piece {
-  Bishop(bool isWhite) : super(isWhite);
+  Bishop(bool isWhite, int id) : super(isWhite, id);
 
   @override
   List<int> getPossibleMoves(int index, List<Piece?> board) {

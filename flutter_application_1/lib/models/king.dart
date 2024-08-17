@@ -4,7 +4,7 @@ import 'piece.dart';
 
 
 class King extends Piece {
-  King(bool isWhite) : super(isWhite);
+  King(bool isWhite, int id) : super(isWhite, id);
 
   @override
   List<int> getPossibleMoves(int index, List<Piece?> board) {
